@@ -1187,14 +1187,6 @@
   dependencies:
     "@prisma/debug" "5.12.0"
 
-"@productdevbook/chatwoot@^1.3.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@productdevbook/chatwoot/-/chatwoot-1.5.0.tgz#d095c3370ad22798850b93d3bbb4b8c7f25e3fad"
-  integrity sha512-c+7NCuGU3bmte3JZX2u+dMTS7FjHt22MF4ZvmEsWjdMxXiagAvlbxbWVQp96PgpuHwlRXvyr3cOpyIaoQ4odCw==
-  dependencies:
-    "@nuxt/kit" "^3.11.1"
-    defu "^6.1.4"
-
 "@react-email/render@0.0.9":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@react-email/render/-/render-0.0.9.tgz#145d3c3fcbc9c4277234e44a58214bb48e8f79bb"
@@ -1583,20 +1575,6 @@
     "@unhead/shared" "1.9.4"
     hookable "^5.5.3"
     unhead "1.9.4"
-
-"@upstash/redis@1.25.1":
-  version "1.25.1"
-  resolved "https://registry.yarnpkg.com/@upstash/redis/-/redis-1.25.1.tgz#361656a326b40d5816640ae4335a8b1bbbb0d238"
-  integrity sha512-ACj0GhJ4qrQyBshwFgPod6XufVEfKX2wcaihsEvSdLYnY+m+pa13kGt1RXm/yTHKf4TQi/Dy2A8z/y6WUEOmlg==
-  dependencies:
-    crypto-js "^4.2.0"
-
-"@vercel/kv@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@vercel/kv/-/kv-1.0.1.tgz#2311e9d62eaed360eba99603c20eeb77a10a0749"
-  integrity sha512-uTKddsqVYS2GRAM/QMNNXCTuw9N742mLoGRXoNDcyECaxEXvIHG0dEY+ZnYISV4Vz534VwJO+64fd9XeSggSKw==
-  dependencies:
-    "@upstash/redis" "1.25.1"
 
 "@vercel/nft@^0.26.4":
   version "0.26.4"
@@ -2612,11 +2590,6 @@ crossws@^0.2.0, crossws@^0.2.2, crossws@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/crossws/-/crossws-0.2.4.tgz#82a8b518bff1018ab1d21ced9e35ffbe1681ad03"
   integrity sha512-DAxroI2uSOgUKLz00NX6A8U/8EE3SZHmIND+10jkVSaypvyt57J5JEOxAQOL6lQxyzi/wZbTIwssU1uy69h5Vg==
-
-crypto-js@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
-  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 css-declaration-sorter@^7.2.0:
   version "7.2.0"

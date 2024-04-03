@@ -5,8 +5,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@sidebase/nuxt-auth",
     "dayjs-nuxt",
-    "@pinia/nuxt",
-    "@productdevbook/chatwoot",
+    "@pinia/nuxt"
   ],
   app: {
     head: {
@@ -44,15 +43,5 @@ export default defineNuxtConfig({
   },
   colorMode: {
     preference: "light",
-  },
-  chatwoot: {
-    init: {
-      websiteToken: process.env.CHATWOOT_WEBSITE_TOKEN,
-    },
-    settings: {
-      locale: "en",
-      position: "left",
-      launcherTitle: "Chat",
-    },
-  },
+  }
 });
