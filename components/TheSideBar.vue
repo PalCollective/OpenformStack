@@ -12,12 +12,7 @@ const links = [
     label: "Dashboard",
     icon: "i-heroicons-home",
     to: "/dashboard",
-  },
-  {
-    label: "Billing",
-    icon: "i-heroicons-credit-card",
-    to: "/settings/billing",
-  },
+  }
 ];
 </script>
 

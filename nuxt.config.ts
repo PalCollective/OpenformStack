@@ -25,10 +25,6 @@ export default defineNuxtConfig({
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     API_ROUTE_SECRET: process.env.API_ROUTE_SECRET,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
-    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
-    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-    PRO_MONTHLY_PRICE_ID: process.env.PRO_MONTHLY_PRICE_ID,
-    PRO_YEARLY_PRICE_ID: process.env.PRO_YEARLY_PRICE_ID,
     BYESPAM_API_KEY: process.env.BYESPAM_API_KEY,
     public: {
       FROM_MAIL: process.env.FROM_MAIL,

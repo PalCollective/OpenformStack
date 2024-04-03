@@ -13,9 +13,6 @@ export default defineEventHandler(async (event) => {
     where: {
       id: session.user.id,
     },
-    include: {
-      Subscription: true,
-    },
   });
 
   return { user };
