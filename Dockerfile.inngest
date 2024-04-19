@@ -1,0 +1,7 @@
+FROM node:21.6.2-alpine
+
+EXPOSE 8288
+
+# The use of `sh -c` is to allow the substitution of the ENV variable
+CMD [ "/bin/sh", "-c", \
+    "npx inngest-cli@latest dev --host $INNGEST_HOST -u $INNGEST_APP_URL" ]

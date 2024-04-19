@@ -1,7 +1,7 @@
 import { inngest } from "@/inngest/client";
 import { Resend } from "resend";
 
-const resend = new Resend(useRuntimeConfig().RESEND_API_KEY);
+const resend = new Resend(useRuntimeConfig().resendApiKey as string);
 
 export default inngest.createFunction(
   { id: "Respondent Email Notification" },

@@ -2,7 +2,7 @@ import { inngest } from "@/inngest/client";
 import { Resend } from "resend";
 import { isEmail } from "~/utils";
 
-const resend = new Resend(useRuntimeConfig().RESEND_API_KEY);
+const resend = new Resend(useRuntimeConfig().resendApiKey as string);
 
 export default inngest.createFunction(
   { id: "Self Email Notification" },

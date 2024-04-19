@@ -4,7 +4,7 @@
   </NuxtLayout>
 </template>
 
-<script lang="ts" setup>
+<!-- <script lang="ts" setup>
 useHead({
   script: [
     {
@@ -14,4 +14,4 @@ useHead({
     },
   ],
 });
-</script>
+</script> -->

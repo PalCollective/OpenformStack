@@ -1,0 +1,39 @@
+ARG node_version
+FROM cached-image AS builder
+
+WORKDIR /repo
+
+# Add relevant files and folders
+# (excludes, in order not to overwrite, node_modules and yarn.lock)
+ADD . ./
+
+# Build the Nitro server (while making the env variables in the secret
+# file available to the build)
+RUN --mount=type=secret,id=env_secrets,required=true \
+    export $(grep -v "^#" /run/secrets/env_secrets | xargs) && npx nuxt build
+
+FROM node:${node_version}-alpine
+
+WORKDIR /repo
+
+RUN apk update && apk upgrade --no-self-upgrade && \
+apk add --no-cache -u yarn
+
+# Copy the prisma dependency
+COPY --from=builder /repo/package.prisma.json ./package.json
+
+# Install prisma
+RUN ["yarn", "install", "--no-lockfile"]
+
+# Add revevant files and folders
+COPY --from=builder /repo/.output ./.output
+ADD ./prisma ./
+
+# Add the entrypoint script for production
+COPY ./entrypoint.prod.sh ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+
+# Expose port for the node server
+EXPOSE ${NITRO_PORT:-3000}
+
+ENTRYPOINT [ "./entrypoint.sh" ]

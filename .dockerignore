@@ -1,0 +1,42 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+.vercel
+
+# because of the order of copy in Dockerfile.dev* we need to exclude
+# the yarn lock file
+yarn.lock
+
+# .git for docker compose watch to prevent resyncing when .git
+# folder changes (versus actual source code change)
+.git
+
+# docker file content (scripts, and build/compose files)
+docker*
+Dockerfile*
+
+# exclude entrypoint scripts which are to be copies and have
+# their permissions changed individually
+# issue: can we not copy ignored files individually?
+# entrypoint*

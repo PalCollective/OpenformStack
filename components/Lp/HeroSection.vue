@@ -1,6 +1,6 @@
 <template>
   <div class="relative isolate pt-14">
-    <div class="py-24 sm:py-32 lg:pb-40">
+    <div class="py-12 sm:py-16 lg:pb-40">
       <div class="sm:px-6 mx-auto max-w-7xl lg:px-8">
         <div class="max-w-3xl mx-auto text-center">
           <h1

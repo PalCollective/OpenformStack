@@ -1,0 +1,13 @@
+ARG node_version
+FROM cached-image AS builder
+
+WORKDIR /repo
+
+# Add relevant files and folders
+# (excludes, in order not to overwrite, node_modules and yarn.lock)
+ADD . ./
+
+# Expose port for the node server
+EXPOSE ${NUXT_PORT:-3000}
+
+ENTRYPOINT npx prisma db push; npx nuxi dev

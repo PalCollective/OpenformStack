@@ -53,7 +53,7 @@ export default inngest.createFunction(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${useRuntimeConfig().BYESPAM_API_KEY}`,
+            Authorization: `Bearer ${useRuntimeConfig().byespamApiKey}`,
           },
           body: {
             content: JSON.stringify(body),
@@ -75,7 +75,7 @@ export default inngest.createFunction(
     }
 
     // self email notification
-    const resend = new Resend(useRuntimeConfig().RESEND_API_KEY);
+    const resend = new Resend(useRuntimeConfig().resendApiKey as string);
 
     const formName = form.name;
     const userEmails = form.workspace.users

@@ -52,22 +52,10 @@
 import { defineComponent, h } from "vue";
 
 const navigation = {
-  // solutions: [
-  //   { name: "Marketing", href: "#" },
-  //   { name: "Analytics", href: "#" },
-  //   { name: "Commerce", href: "#" },
-  //   { name: "Insights", href: "#" },
-  // ],
-  // support: [
-  //   { name: "Pricing", href: "#" },
-  //   { name: "Documentation", href: "#" },
-  //   { name: "Guides", href: "#" },
-  // ],
   company: [
     { name: "Contact", href: "/contact" },
     { name: "Privacy", href: "/privacy" },
     { name: "Terms", href: "/terms" },
-    { name: "Refund", href: "/refund" },
   ],
   // legal: [{ name: "Claim", href: "#" }],
   social: [

@@ -8,9 +8,6 @@
       <template #settings="{ item }">
         <div class="text-black">Settings</div>
       </template>
-      <template #billing="{ item }">
-        <SettingsBilling />
-      </template>
     </UTabs>
   </div>
 </template>
@@ -20,11 +17,7 @@ const tabs = [
   {
     slot: "settings",
     label: "Settings",
-  },
-  {
-    slot: "billing",
-    label: "Billing",
-  },
+  }
 ];
 
 const route = useRoute();

@@ -1,0 +1,70 @@
+version: "3.7"
+
+# This file is written with local development in mind:
+# - using a cached-image with a local tag of "cached-image" (Docker.cached)
+# - expose ports of database and inngest dev server on localhost for testing
+#   (for example for running "yarn run prisma:studio")
+# - using the watch feature of docker compose 2.22.0 and above to resync code
+# - using an env file for secrets instead of secret files
+# - using a named volume for persisting database data in development
+# - duplication of environment variables between .envrc and the compose file
+#   to allow running the "app" component using "yarn run dev" on localhost
+#   (this feature was necessary as it took me loads of time to discover the
+#    right setting for NUXT_HOST when running in a container, that is 0.0.0.0)
+
+services:
+  app:
+    depends_on:
+      - db
+      - inngest
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        - node_version=${node_version}
+      cache_from:
+        - "cached-image"
+    environment:
+      - NUXT_PORT=80
+      - NUXT_HOST=0.0.0.0
+      - INNGEST_BASE_URL=http://inngest:8288
+      - INNGEST_DEV=1
+      - BASE_URL=http://localhost
+      - AUTH_ORIGIN=http://localhost
+      # keep this variable congruent with those in the db container below
+      - DATABASE_URL=postgres://postgres:postgres@db/headless_forms?schema=public
+    env_file:
+      - ./.env
+    ports:
+      - "80:80"
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: /repo
+
+  inngest:
+    build:
+      context: .
+      dockerfile: Dockerfile.inngest
+    environment:
+      - INNGEST_APP_URL=app:80/api/inngest
+      - INNGEST_HOST=inngest
+    ports:
+      - "8288:8288"
+
+  db:
+    restart: unless-stopped
+    image: postgres:latest
+    # keep these variables cogruent with DATABASE_URL above
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=headless_forms
+    volumes:
+      - default_database_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  default_database_data:
