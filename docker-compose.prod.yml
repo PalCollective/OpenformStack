@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: Dockerfile.prod
       args:
-        - node_version=${node_version}
+        - node_version=21.6.2
       secrets:
         - env_secrets
     environment:
@@ -18,8 +18,7 @@ services:
       - NITRO_HOST=0.0.0.0
       - BASE_URL=http://localhost
       - AUTH_ORIGIN=http://localhost
-      # keep this variable congruent with those in the db container below
-      - DATABASE_URL=postgres://postgres:postgres@db/headless_forms?schema=public
+      - POSTGRES_PASSWORD=postgres
     secrets:
       - env_secrets
     ports:
@@ -28,7 +27,6 @@ services:
   db:
     restart: unless-stopped
     image: postgres:latest
-    # keep these variables cogruent with DATABASE_URL above
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

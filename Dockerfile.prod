@@ -1,7 +1,23 @@
 ARG node_version
-FROM cached-image AS builder
+# FROM cached-image AS builder
+FROM node:${node_version}-alpine AS builder
 
 WORKDIR /repo
+
+RUN apk update && apk upgrade --no-self-upgrade && \
+apk add --no-cache -u yarn jq pcre-tools
+
+ADD package.json prisma ./
+
+# Generate lockfile and install all dependencies
+RUN ["yarn", "install"]
+
+# Generate Prisma client and build application
+RUN ["npx", "prisma", "generate"]
+
+# Extract the computed verion of prisma and save it
+RUN  jq --null-input -r "{ devDependencies: { prisma: \"$(yarn list | \
+pcregrep --only-matching=1 "@prisma/client@([.0-9]+)")\" } }" >> package.prisma.json
 
 # Add relevant files and folders
 # (excludes, in order not to overwrite, node_modules and yarn.lock)

@@ -1,0 +1,61 @@
+version: "3.7"
+
+# For deployment on our server with traefik at forms.palcollective.com
+name: forms
+services:
+  app:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      args:
+        - node_version=21.6.2
+      secrets:
+        - env_secrets
+    environment:
+      - NITRO_PORT=3000
+      - NITRO_HOST=0.0.0.0
+      - BASE_URL=https://forms.palcollective.com
+      - AUTH_ORIGIN=https://forms.palcollective.com
+    secrets:
+      - env_secrets_ypc
+      - pg_pass
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.crocodile.rule=Host(`forms.palcollective.com`)"
+      - "traefik.http.routers.crocodile.entrypoints=websecure"
+      - "traefik.http.routers.crocodile.tls.certresolver=myresolver"
+      - "traefik.docker.network=traefik"
+    networks:
+      - traefik
+      - database
+
+  db:
+    restart: unless-stopped
+    image: postgres:latest
+    # keep these variables cogruent with DATABASE_URL above
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD_FILE=/run/secrets/pg_pass
+      - POSTGRES_DB=headless_forms
+    secrets:
+      - pg_pass
+    volumes:
+      - /opt/openformstack/db-data:/var/lib/postgresql/data
+    networks:
+      - database
+
+secrets:
+  env_secrets:
+    file: ./.env
+  env_secrets_ypc:
+    file: /opt/openformstack/secrets/.env
+  pg_pass:
+    file: /opt/openformstack/secrets/pg_pass
+
+networks:
+  database:
+    name: openformstack
+  traefik:
+    external: true

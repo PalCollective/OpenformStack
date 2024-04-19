@@ -1,4 +1,42 @@
-# Openformstack
+<img src="./public/pal_logo.svg" width="100%" height="240px">
+
+# Openformstack (PalCollective edition)
+
+This is a forked, slightly modified, and a completely dockerised version of Openformstack for the purpose of using it in our humanitarian operations.
+
+We can host the forms within the same project or on our landing page (a work started by @eliasmeana132)
+
+## Instructions
+
+Before being able to run the application in development/production, either on your local machine or elsewhere, you need to supply the env secrets. Follow the instructions in `.env.example` to create an `.env` file, locally (which you will need to copy to the remote when deploying on the remote server).
+
+### Running in development
+
+Use the `docker-compose-dev.sh` and `docker-compose-dev-logs.sh` scripts simultaneously, on your local machine.
+
+You may need to update Docker desktop, since the scripts use the `docker watch` command.
+
+### Running in production locally
+
+If using `direnv`, start by disallowing the access to the local `.envrc` file, which contains the remote context (ensuring that you are running your docker commands locally, rather than attempting to run them on a remote machine -called context).
+
+After that run `docker compose -f docker-compose.prod.yml up` locally from the repo folder, the containers will be built and launched.
+
+You can access the website at http://localhost (default port 80).
+
+### Running in production locally (still in progress)
+
+If using `direnv`, start by allowing the access to the local `.envrc` file, which contains the remote context (which will run your docker commands on the remote server).
+
+Note that for this to work, you must both configure SSH access and create a docker context. Instructions for both are available on our [hive](https://github.com/PalCollective/hive-odoo/tree/main) repository.
+
+After that, all you need to do is to:
+1. Create a DB data folder on the remote (if does not exist), in the location `/opt/openstackforms/db-data`.
+1. Create a file with a random password (not using special characters) in `/opt/openstackforms/secrets/pg_pass` on the remote (will be used for the postgres database password in production).
+1. Create a properly filled `.env` secrets file (following the instructions in `.env.example`) and store it at `/opt/openstackforms/secrets/.env` on the remote. 
+1. Run the command `docker compose -f docker-compose.prod.ypc.yml up --detach` (which will run on the remote context if you followed the instructions in [the other repo](https://github.com/PalCollective/hive-odoo/tree/main)).
+
+# Original documentation
 
 This repository contains a Nuxt 3 application for creating and managing headless forms. The application uses Prisma for ORM and provides a user interface for creating and managing workspaces and forms.
 
