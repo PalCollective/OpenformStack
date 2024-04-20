@@ -8,13 +8,15 @@ The frontend forms themselves, can be hosted in other projects within the organi
 
 ## Introduction
 
-The purpose of this fork is to remove all pricing, billing, and analytics, while reducing dependencies on third-party services, and in the near future, steering away from Google OAuth into something like GitHub OAuth.
+The purpose of this fork is to remove all pricing, billing, and analytics, while reducing dependencies on third-party services and APIs.
+
+Another goal is to steer away from Google OAuth, in favor of something like GitHub OAuth, hopefully in the near future.
 
 ## Instructions
 
-This project requires a lot of API keys and a significant about configuration.
+This project requires a few API keys and a significant amount of configuration.
 
-Namely, you will need:
+_Namely, you will need:_
 1. A _Google Workspace_ account with an app configured in testing for the emails you want to use this application with. (we hope to replace Google OAuth with GitHub OAuth soon).
 1. [Inngest](https://www.inngest.com/) free account.
 1. [Resend](https://www.resend.com/) free account.
@@ -22,71 +24,29 @@ Namely, you will need:
 
 In addition, you will need access to the DNS provier to verify your domain, for the purpose of allowing the _Resend API_ to send emails from an email on that domain. This process can be a little icky, especially if you have _Gmail_ already configured on that domain.
 
-### Running in development
+### Running in development (locally)
+
+> [!TIP]
+> To shut down the development application, you can use the following command:
+> ```bash
+> docker compose -f docker-compose.dev.yml down
+> ```
 
 > [!WARNING]
 > If you have the utility `direnv` installed and configured in your terminal, then ensure to run the command `direnv disallow .` before proceeding.
 
 > [!IMPORTANT]
 > To ensure that you are using the right docker context (local, rather than remote), use `docker context list` and `docker context show`. If there is only one context or if the local context is chosen as the current one, then you may proceed.
-
-> [!CAUTION]
-> if you tried running the application in production (locally) prior to running it in development, then please remember to shut down the application running in production first, which can be done using the following command:
-> ```bash
-> docker compose -f docker-compose.prod.yml down
-> ```
-> To ensure that the production application is shut down before proceeding, use the following command:
-> ```bash
-> docker ps -f="name=forms"
-> ```
-> ... the resulting list should be empty.
 
 Use the `docker-compose-dev.sh` script to run the application in development, and the `docker-compose-dev-logs.sh` script to display the logs in realtime, on your local machine.
 
 Note that you may need to update Docker Desktop, to be able to run the `docker-compose-dev.sh` script, as it uses the `docker watch` command, which requires docker compose v2.22.0 or higher.
 
-### Running in production (locally)
-
-> [!WARNING]
-> This flow is a work in progress, the inngest app sync step requires extra work.
-> The command needed to sync the app is:
-> ```bash
-> curl -X PUT http://localhost/api/inngest
-> ```
-> ... which currently returns an error message:
-> ```json
-> {"message":"Cannot deploy localhost functions to production.  Please use a forwarder like tunnelto or ngrok.","modified":false}
-> ```
-
-> [!WARNING]
-> If you have the utility `direnv` installed and configured in your terminal, then ensure to run the command `direnv disallow .` before proceeding.
-
-> [!IMPORTANT]
-> To ensure that you are using the right docker context (local, rather than remote), use `docker context list` and `docker context show`. If there is only one context or if the local context is chosen as the current one, then you may proceed.
-
-> [!CAUTION]
-> if you tried running the application in development prior to running it in production (locally), then please remember to shut down the application running in development first, which can be done the following command:
-> ```bash
-> docker compose -f docker-compose.dev.yml down
-> ```
-> To ensure that the production application is shut down before proceeding, use the following command:
-> ```bash
-> docker ps -f="name=openformstack"
-> ```
-> ... the resulting list should be empty.
-
-To run the application in production, but locally on your computer, then please use the following command:
-```bash
-docker compose -f docker-compose.prod.yml up --build
-```
-
-This command will build the docker images needed, and launch them in the right order. As the containers are launched/orchestrated, you will be able to see the logs in realtime.
-
-To access the application, please type http://localhost in the address bar of your browser (note that if port 80 is used by another application, then the command above will fail).
-
 ### Running in production (remotely)
 
-#### Obtain access to the remote
+To deploy the application to a remote server, there are 9 steps which need to be performed in order, as shown below.
+
+#### 1. Obtain access to the remote
 
 > [!NOTE]
 > This step only needs to be performed once.
@@ -101,7 +61,7 @@ ssh root@XXX.XXX.XXX.XXX
 ```
 ... where `XXX.XXX.XXX.XXX` is the public IP address of the remote.
 
-#### Edit local SSH config
+#### 2. Edit local SSH config
 
 > [!NOTE]
 > This step only needs to be performed once.
@@ -120,7 +80,7 @@ After this, I was able to SSH into the remote using the simpler command:
 ssh ypc
 ```
 
-#### Create remote docker context
+#### 3. Create remote docker context
 
 > [!NOTE]
 > This step only needs to be performed once.
@@ -132,14 +92,14 @@ To permit this, you must create the docker context first (using `docker context 
 docker context create ypc --docker "host=ssh://root@ypc"
 ```
 
-#### Install direnv
+#### 4. Install direnv
 
 > [!NOTE]
 > This step only needs to be performed once.
 
 [Install](https://direnv.net/docs/installation.html) the `direnv` utility and [configure](https://direnv.net/docs/hook.html) it into the shell you are using, using the instructions online
 
-#### Activate the remote context
+#### 5. Activate the remote context
 
 > [!NOTE]
 > This step only needs to be performed and unperformed each time you switch from working locally to working remotely, and vice versa.
@@ -153,7 +113,7 @@ From this point on, if you run `docker ps`, you must be able to see the docker c
 
 The same thing can be confirmed by using the `docker context list` and `docker context show` commands. If the current docker context is `ypc`, then you may proceed.
 
-#### Setup files and folders
+#### 6. Setup files and folders
 
 Before running the application on the remote, there are folders and files that need to exist there for the application to run correctly.
 
@@ -164,7 +124,7 @@ These folders and files can be created using shell (i.e. SSH) access:
 
 ... with these steps successfully performed, you are ready to move to launching the application.
 
-#### Launch the application
+#### 7. Launch the application
 
 To run the application using docker compose, the following command can be used locally, from the root of the repository folder, after switching to the remote docker context:
 ```bash
@@ -176,7 +136,7 @@ To view the logs in realtime, use the command:
 docker compose -f docker-compose.prod.ypc.yml logs --follow
 ```
 
-#### Sync the inngest provider
+#### 8. Sync the inngest provider
 
 By now, the application should work and must be accessible at https://forms.palcollective.com, but submitting the forms will return an HTTP code 500, and error messages will show in the logs.
 
@@ -185,6 +145,8 @@ This is due to the inngest app not being synced with the third-party service pro
 
 If all goes well, then the app should be synced successfully as shown below:
 ![](./.docs/sync_inngest_app2.png)
+
+#### 9. Update secrets and restart
 
 Finally, you must use the SSH access you have to update the `NUXT_INNGEST_SIGNING_KEY` and `NUXT_INNGEST_EVENT_KEY` secret values on the remote, which are contained within the `/opt/openformstack/secrets/.env` file on the remote.
 
