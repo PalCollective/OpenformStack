@@ -3,9 +3,11 @@
 # Locate password of POSTGRESDB in production
 if ! [ -z "$POSTGRES_PASSWORD" ]
 then 
+echo "found postgres database password in an env variable (production locally)"
 PGPASS=$POSTGRES_PASSWORD
 elif [ -f "/run/secrets/pg_pass" ] && [ -s "/run/secrets/pg_pass" ]
 then
+echo "found postgres database password in a secret file (production remote)"
 PGPASS=$(cat /run/secrets/pg_pass)
 else
 echo "could not find POSTGRES_PASSWORD or /run/secrets/pg_pass, aborting..."
@@ -32,6 +34,7 @@ fi
 
 # Import secrets into environment
 export $(grep -v "^#" $ENVFILE | xargs)
+export $(sed 's/NUXT_//' $ENVFILE | grep '^INNGEST' | xargs)
 
 # Run Nitro server in production
 node .output/server/index.mjs

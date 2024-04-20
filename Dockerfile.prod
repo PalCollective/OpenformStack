@@ -2,6 +2,9 @@ ARG node_version
 # FROM cached-image AS builder
 FROM node:${node_version}-alpine AS builder
 
+ARG nitro_port
+ARG base_url
+
 WORKDIR /repo
 
 RUN apk update && apk upgrade --no-self-upgrade && \
@@ -26,9 +29,13 @@ ADD . ./
 # Build the Nitro server (while making the env variables in the secret
 # file available to the build)
 RUN --mount=type=secret,id=env_secrets,required=true \
-    export $(grep -v "^#" /run/secrets/env_secrets | xargs) && npx nuxt build
+    export $(grep -v "^#" /run/secrets/env_secrets | xargs) && \
+    echo "building app with base URL of $base_url" && \
+    NUXT_BASE_URL=$base_url NUXT_SITE_URL=$base_url npx nuxt build
 
 FROM node:${node_version}-alpine
+
+ARG nitro_port
 
 WORKDIR /repo
 
@@ -50,6 +57,6 @@ COPY ./entrypoint.prod.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
 # Expose port for the node server
-EXPOSE ${NITRO_PORT:-3000}
+EXPOSE ${nitro_port:-3000}
 
 ENTRYPOINT [ "./entrypoint.sh" ]

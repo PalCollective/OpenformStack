@@ -11,12 +11,13 @@ services:
       dockerfile: Dockerfile.prod
       args:
         - node_version=21.6.2
+        - nitro_port=3000
+        - base_url=https://forms.palcollective.com
       secrets:
         - env_secrets
     environment:
       - NITRO_PORT=3000
       - NITRO_HOST=0.0.0.0
-      - BASE_URL=https://forms.palcollective.com
       - AUTH_ORIGIN=https://forms.palcollective.com
     secrets:
       - env_secrets_ypc

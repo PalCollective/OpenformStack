@@ -21,27 +21,7 @@ export default NuxtAuthHandler({
     }),
   ],
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      console.log(`redirect callback is invoked url=${url} baseUrl=${baseUrl}`);
-
-      if (!url) url = "/";
-
-      // Allows relative callback URLs
-      if (url.startsWith("/") || url.startsWith("./")) {
-        const result = new URL(url, baseUrl).toString();
-        console.log(`redirectin to "${result}"`)
-        return result;
-      }
-      // Replace localhost:3000 or similar with the provided
-      // authentication url (reflects the hostname inside docker)
-      else {
-        const result = new URL(new URL(url).pathname, baseUrl).toString();
-        console.log(`redirectin to "${result}"`)
-        return result;
-      }
-    },
     session({ session, token }) {
-      console.log(`session callback is invoked session=${session} token=${token}`);
       session.user.id = token.id;
       return session;
     },

@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
-      title: "OpenformStack",
+      title: "PalCollective Forms",
       meta: [
         {
           name: "description",
@@ -30,16 +30,18 @@ export default defineNuxtConfig({
     apiRouteSecret: '',
     resendApiKey: '',
     byespamApiKey: '',
+    inngestEventKey: '',
+    inngestSigningKey: '',
+    
     public: {
       // These on the other hand are baked to the build in production and hence
       // must be made available during build (check docker-compose.prod.yml)
       FROM_MAIL: process.env.FROM_MAIL,
       GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-      BASE_URL: process.env.BASE_URL,
 
       // SEO
-      baseUrl: process.env.BASE_URL || "https://openformstack.com",
-      siteUrl: process.env.BASE_URL || "https://openformstack.com",
+      baseUrl: process.env.NUXT_BASE_URL,
+      siteUrl: process.env.NUXT_SITE_URL,
       siteName: "PalCollective Forms",
       siteDescription:
         "Open source form backend that allows you to collect form submissions without writing any backend code",

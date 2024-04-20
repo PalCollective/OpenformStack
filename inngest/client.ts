@@ -1,3 +1,4 @@
 import { Inngest } from "inngest";
 
-export const inngest = new Inngest({ id: "OpenformStack" });
+const runtimeConfig = useRuntimeConfig();
+export const inngest = new Inngest({ id: "OpenformStack", key: runtimeConfig.inngestEventKey });

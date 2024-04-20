@@ -55,7 +55,7 @@ const props = defineProps({
 });
 
 const url = computed(
-  () => `${useRuntimeConfig().public.BASE_URL}/f/${props.formId}`
+  () => `${useRuntimeConfig().public.baseUrl}/f/${props.formId}`
 );
 
 const copying = ref(false);

@@ -29,7 +29,7 @@ services:
       - NUXT_HOST=0.0.0.0
       - INNGEST_BASE_URL=http://inngest:8288
       - INNGEST_DEV=1
-      - BASE_URL=http://localhost
+      - NUXT_BASE_URL=http://localhost
       - AUTH_ORIGIN=http://localhost
       # keep this variable congruent with those in the db container below
       - DATABASE_URL=postgres://postgres:postgres@db/headless_forms?schema=public
